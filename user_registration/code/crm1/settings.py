@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from decouple import config as env
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'cz=&%f*9(d*zo$_55p=(p)(eki#p$pb^0159-)8k^6$9c3l&_b'
+DEBUG = env('DEBUG')
+SECRET_KEY = env('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['social.org','localhost','127.0.0.1']
 
 
 # Application definition
@@ -41,6 +43,9 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
 
     'django_filters',
+    'social_django',  
+    'django_extensions',  
+    'sslserver',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +79,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'crm1.wsgi.application'
 
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = env('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = env('SOCIAL_AUTH_FACEBOOK_SECRET')
+
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY =  env('SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY')        #Client ID
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = env('SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET')  #Client Secret
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -117,7 +135,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -134,9 +155,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 #SMTP Configuration
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ajitpanda4777@gmail.com'
-EMAIL_HOST_PASSWORD = 'Ajit274733@.'
+EMAIL_BACKEND = env('EMAIL_BACKEND')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')

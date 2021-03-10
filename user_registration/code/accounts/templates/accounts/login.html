@@ -121,8 +121,19 @@
 					<div class="d-flex justify-content-center links">
 						Forgot password? <a href="{% url 'reset_password' %}" class="ml-2">Reset password</a>
 					</div>
-			
+					
 				</div>
+				<div class="social">
+					<ul>
+						<li class="facebook">
+							<a href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook</a>
+						</li>
+						<li class="linkedin">
+							<a href="{% url 'social:begin' 'linkedin-oauth2' %}">Login with LinkedIn</a>
+						</li>
+					</ul>
+				</div>
+				
 			</div>
 		</div>
 	</div>
