@@ -19,10 +19,14 @@ from django.urls import path, include
 
 from django.conf.urls.static import static
 from django.conf import settings
+from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
+    path('social-auth/', include('social_django.urls', namespace="social")),
+    path("", views.home, name="home"),
+
 
 ]
 
