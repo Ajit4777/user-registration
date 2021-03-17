@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+{% load static %}
+{% load i18n %}
 <html>
     
 <head>
@@ -123,16 +125,31 @@
 					</div>
 					
 				</div>
-				<div class="social">
-					<ul>
-						<li class="facebook">
-							<a href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook</a>
-						</li>
-						<li class="linkedin">
-							<a href="{% url 'social:begin' 'linkedin-oauth2' %}">Login with LinkedIn</a>
-						</li>
-					</ul>
-				</div>
+<!--				<div class="social">-->
+<!--					<ul>-->
+<!--						<li class="facebook">-->
+<!--							<a href="{% url 'social:begin' 'facebook' %}">Sign in with Facebook</a>-->
+<!--						</li>-->
+<!--						<li class="linkedin">-->
+<!--							<a href="{% url 'social:begin' 'linkedin-oauth2' %}">Login with LinkedIn</a>-->
+<!--						</li>-->
+<!--					</ul>-->
+<!--				</div>-->
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                    <ul class="sign-btn">
+                        <li class="sign-btn-google full-width">
+                            <a href="{% url 'google_login' %}" style="padding: 10px 10px;border-radius: 5px">
+                                <img src="{% static 'images/google.png'%}"/> {% trans 'LOGIN VIA GOOGLE +' %}
+                            </a>
+                        </li>
+{#                        <li>#}
+{#                            #}
+{##}
+{#                        </li>#}
+                    </ul>
+
+                </div>
 				
 			</div>
 		</div>

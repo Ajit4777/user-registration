@@ -1,6 +1,7 @@
 from django.urls import path
 
 from django.contrib.auth import views as auth_views
+from django.conf.urls import url
 
 from . import views
 
@@ -39,8 +40,7 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(template_name="accounts/password_reset_done.html"), 
         name="password_reset_complete"),
 
-
-
+    url(r'^google-login/$', views.google_login, name="google_login"),
 ]
 
 '''
