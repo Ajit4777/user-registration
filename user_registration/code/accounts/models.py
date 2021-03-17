@@ -14,6 +14,15 @@ class Customer(models.Model):
 	def __str__(self):
 		return self.name
 
+class ZoomMeeting(models.Model):
+	start_url = models.CharField(max_length=500)
+	meeting_id = models.CharField(max_length=100)
+	join_url = models.CharField(max_length=400)
+	passowrd = models.CharField(max_length=20)
+
+	def __str__(self):
+		return self.meeting_id
+
 
 class Tag(models.Model):
 	name = models.CharField(max_length=200, null=True)

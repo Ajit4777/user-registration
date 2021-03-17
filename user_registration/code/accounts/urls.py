@@ -41,6 +41,7 @@ urlpatterns = [
         name="password_reset_complete"),
 
     url(r'^google-login/$', views.google_login, name="google_login"),
+    url(r'^create_meeting_link/',views.create_meeting_link,name='create_meeting_link'),
 ]
 
 '''

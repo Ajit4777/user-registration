@@ -15,7 +15,11 @@ class OrderForm(ModelForm):
 	class Meta:
 		model = Order
 		fields = '__all__'
-
+		
+class ZoomForm(ModelForm):
+	class Meta:
+		model = ZoomMeeting
+		fields = '__all__'
 
 class CreateUserForm(UserCreationForm):
 	class Meta:

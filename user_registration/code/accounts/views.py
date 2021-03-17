@@ -21,6 +21,7 @@ from .models import *
 from .forms import OrderForm, CreateUserForm, CustomerForm
 from .filters import OrderFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
+from . import  zoom_api as zm
 
 @unauthenticated_user
 def registerPage(request):
@@ -68,7 +69,6 @@ def logoutUser(request):
 def home(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
-
     total_customers = customers.count()
 
     total_orders = orders.count()
@@ -85,7 +85,9 @@ def home(request):
 @allowed_users(allowed_roles=['customer'])
 def userPage(request):
     orders = request.user.customer.order_set.all()
+    user = request.user
 
+    print("User : ",request.user.email)
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
     pending = orders.filter(status='Pending').count()
@@ -98,17 +100,20 @@ def userPage(request):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
-def accountSettings(request):
+def accountSettings(request,meeting_url=""):
     customer = request.user.customer
+    print((request.user.customer.email))
     form = CustomerForm(instance=customer)
-
+    zoom_meeting = ZoomMeeting()
+    print(zoom_meeting)
     if request.method == 'POST':
         form = CustomerForm(request.POST, request.FILES,instance=customer)
         if form.is_valid():
             form.save()
 
 
-    context = {'form':form}
+    context = {'form':form,
+               'meeting_url':meeting_url}
     return render(request, 'accounts/account_settings.html', context)
 
 
@@ -218,6 +223,7 @@ def google_login(request):
             user, _ = User.objects.get_or_create(email=email, username=first_name)
             user.__dict__.update(data)
             user.save()
+
             user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(request, user)
         else:
@@ -235,3 +241,12 @@ def google_login(request):
         scope = " ".join(scope)
         url = url % (settings.GP_CLIENT_ID, scope, redirect_uri)
         return redirect(url)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def create_meeting_link(request):
+
+    data = zm.create_meeting_link(request.user.email)
+    context = {'result' : data}
+    return render(request,'accounts/show_zoom_meeting_details.html',context)
